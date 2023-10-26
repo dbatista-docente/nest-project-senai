@@ -15,7 +15,7 @@ export class TelegramService {
   base64ToImage(base64: string): Buffer {
     const base64Data = base64.replace(/^data:image\/jpeg;base64,/, '');
 
-    return Buffer.from(base64Data);
+    return Buffer.from(base64Data, 'base64');
   }
 
   async sendTelegrafText({ message, chatid, tokenbot }: sendMessageDto) {
