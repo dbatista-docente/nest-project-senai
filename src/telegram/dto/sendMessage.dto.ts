@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class sendMessageDto {
+export class SendMessageDto {
   @ApiProperty()
   message: string;
 
@@ -11,5 +11,5 @@ export class sendMessageDto {
   tokenbot: string;
 
   @ApiProperty()
-  images: string[]
+  images: string[] | undefined
 }
