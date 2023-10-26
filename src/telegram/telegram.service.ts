@@ -28,12 +28,12 @@ export class TelegramService {
     }
   }
 
-  async sendTelegrafMedia(
-    message: string,
-    chatid: string,
-    tokenbot: string,
-    images: string[],
-  ) {
+  async sendTelegrafMedia({
+    message,
+    chatid,
+    tokenbot,
+    images,
+  }: sendMessageDto) {
     const bot = new Telegraf(tokenbot);
     const media: MediaGroup = images.map((image) => ({
       type: 'photo',
@@ -42,8 +42,9 @@ export class TelegramService {
     }));
 
     media[media.length - 1].caption = message;
+    console.log(media)
 
     await bot.telegram.sendMediaGroup(chatid, media);
-    console.log('Mensagem enviada')
+    console.log('Mensagem enviada');
   }
 }

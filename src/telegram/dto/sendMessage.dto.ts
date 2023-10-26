@@ -9,4 +9,7 @@ export class sendMessageDto {
 
   @ApiProperty()
   tokenbot: string;
+
+  @ApiProperty()
+  images: string[]
 }
