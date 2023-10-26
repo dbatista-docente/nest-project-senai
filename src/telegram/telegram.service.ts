@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Telegraf } from 'telegraf';
 import { SendMessageDto } from './dto/sendMessage.dto';
 import { MediaGroup } from 'telegraf/typings/telegram-types';
+import * as cron from 'node-cron';
 
 @Injectable()
 export class TelegramService {
@@ -52,5 +53,21 @@ export class TelegramService {
     sendMessageDto.images
       ? this.sendTelegrafMedia(sendMessageDto)
       : this.sendTelegrafText(sendMessageDto);
+  }
+
+  cronConvert(schedule: string | Date): string {
+    schedule = new Date(schedule);
+    const day = schedule.getDate(); // Obtém o dia do mês (1-31)
+    const month = schedule.getMonth() + 1; // Obtém o mês (0-11), adicionamos 1 para obter o mês de 1 a 12
+    const years = schedule.getFullYear(); // Obtém o ano com quatro dígitos (ex: 2023)
+    const hour = schedule.getHours(); // Obtém a hora (0-23)
+    const minuts = schedule.getMinutes(); // Obtém os minutos (0-59)
+    return `${minuts} ${hour} ${day} ${month} *`;
+  }
+
+  async sendSchedule(cronConvert: string, sendMessageDto: SendMessageDto) {
+    cron.schedule(cronConvert, async () => {
+      await this.sendMessageSwitch(sendMessageDto);
+    });
   }
 }
