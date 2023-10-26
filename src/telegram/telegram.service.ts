@@ -49,13 +49,13 @@ export class TelegramService {
     console.log('Mensagem enviada');
   }
 
-  async sendMessageSwitch(sendMessageDto: SendMessageDto) {
+  private async sendMessageSwitch(sendMessageDto: SendMessageDto) {
     sendMessageDto.images
       ? this.sendTelegrafMedia(sendMessageDto)
       : this.sendTelegrafText(sendMessageDto);
   }
 
-  cronConvert(schedule: string | Date): string {
+  private cronConvert(schedule: string | Date): string {
     schedule = new Date(schedule);
     const day = schedule.getDate(); // Obtém o dia do mês (1-31)
     const month = schedule.getMonth() + 1; // Obtém o mês (0-11), adicionamos 1 para obter o mês de 1 a 12
@@ -65,8 +65,9 @@ export class TelegramService {
     return `${minuts} ${hour} ${day} ${month} *`;
   }
 
-  async sendSchedule(cronConvert: string, sendMessageDto: SendMessageDto) {
-    cron.schedule(cronConvert, async () => {
+  async sendSchedule(sendMessageDto: SendMessageDto) {
+    const cronConvertTime = this.cronConvert(sendMessageDto.schedule)
+    cron.schedule(cronConvertTime, async () => {
       await this.sendMessageSwitch(sendMessageDto);
     });
   }
