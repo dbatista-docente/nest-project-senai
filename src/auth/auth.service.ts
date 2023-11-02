@@ -40,7 +40,8 @@ export class AuthService {
 
   async validateUser(
     email: string,
-    password: string,
+    password?: string,
+    token?: number
   ): Promise<{
     id: string;
     email: string;
@@ -53,7 +54,13 @@ export class AuthService {
       const { password, ...result } = user;
       return result;
     }
-    throw Error("Senha incorreta!");
+
+    if((token === user.token) && user.token !== 0){
+      const { password, ...result } = user;
+      return result;
+    }
+
+    throw Error(token ? "Token inválido ou expirado!" : "Senha incorreta!");
   }
 
   async login(user: User) {

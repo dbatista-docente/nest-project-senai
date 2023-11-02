@@ -22,4 +22,18 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     }
     return user;
   }
+
+  async validateTokenRecover(email: string, token: number): Promise<{
+    id: string;
+    email: string;
+    name: string;
+    picture: string;
+    admin?: boolean;
+}> {
+    const user = await this.authService.validateUser(email,undefined, token);
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    return user;
+  }
 }

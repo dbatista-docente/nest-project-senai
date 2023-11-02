@@ -28,6 +28,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { User } from 'src/user/entities/user.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { SignInRecoverDto } from './dto/signInRecover.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -38,6 +39,12 @@ export class AuthController {
   @Post('login')
   async signIn(@Body() loginDto: LoginDto) {
     const user: User = await this.authService.validateUser(loginDto.email, loginDto.password)
+    return this.authService.login(user)
+  }
+
+  @Post('login-recover')
+  async signInRecover(@Body() recoverDto: SignInRecoverDto ) {
+    const user: User = await this.authService.validateUser(recoverDto.email, undefined,recoverDto.token)
     return this.authService.login(user)
   }
 

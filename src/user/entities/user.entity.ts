@@ -5,4 +5,5 @@ export class User {
     password?: string;
     picture: string;
     admin?: boolean;
+    token?: number
 }
