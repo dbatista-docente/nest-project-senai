@@ -50,13 +50,15 @@ export class AuthService {
     admin?: boolean;
   } | null> {
     const user: User = await this.usersService.findOne(undefined, email);
+    console.log(user)
     if (user && user.password === password) {
       const { password, ...result } = user;
       return result;
     }
 
-    if((token === user.token) && user.token !== 0){
+    if((token == user.token) && user.token !== 0){
       const { password, ...result } = user;
+      console.log("entrei aqui")
       return result;
     }
 
