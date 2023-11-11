@@ -27,6 +27,7 @@ async function bootstrap() {
     .setTitle('Nest-Project')
     .setVersion('1.0.0')
     .addServer('http://localhost:3000', 'Local')
+    .addServer('nest-project-senai-production.up.railway.app', 'Railway')
     .addTag('Status')
     .addTag('Auth')
     .addTag('User')
